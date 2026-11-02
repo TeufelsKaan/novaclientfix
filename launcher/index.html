@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0f15" />
+  <title>Nova Client</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./interface.css" />
+</head>
+<body>
+  <div class="app-frame">
+    <aside class="sidebar">
+      <a href="#home" class="brand" aria-label="Nova Client Startseite">
+        <span class="brand-icon"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M6 27V9h4l10 11V9h5v18h-4L11 16v11z"/><path d="M27 9h4v18h-4z" opacity=".52"/></svg></span>
+        <span class="brand-copy"><b>NOVA</b><small>CLIENT</small></span>
+        <span class="brand-version">BETA</span>
+      </a>
+      <div class="sidebar-rule"></div>
+      <span class="nav-label">SPIELZENTRALE</span>
+      <nav class="primary-nav" aria-label="Hauptnavigation">
+        <button class="nav-item active" data-page="home"><span class="nav-symbol">⌂</span><span>Übersicht</span></button>
+        <button class="nav-item" data-page="mods"><span class="nav-symbol">▦</span><span>Mod-Bibliothek</span><span class="nav-count" id="nav-mod-count">9</span></button>
+        <button class="nav-item" data-page="hud"><span class="nav-symbol">⊙</span><span>HUD &amp; Interface</span></button>
+        <button class="nav-item" data-page="settings"><span class="nav-symbol">⚙</span><span>Einstellungen</span></button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-pack">
+        <div class="pack-art-mini"><span>✦</span><i>✦</i><b>N</b></div>
+        <div><small>AKTIVES PROFIL</small><strong id="side-profile">Nova Performance</strong><span>Fabric · 26.3</span></div>
+        <button id="side-profile-btn" class="side-more" aria-label="Profil ändern">···</button>
+      </div>
+      <button id="account-card" class="account-card"><span class="avatar-pixel">N</span><span class="account-meta"><b id="account-name">Gastpilot</b><small id="account-status">Nicht angemeldet</small></span><span class="account-chevron">⌄</span></button>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar"><div class="crumb"><span>SPIELZENTRALE</span><b>/</b><strong id="page-name">ÜBERSICHT</strong></div><div class="topbar-right"><span class="connection-state"><i></i><span id="connection-label">OFFLINE-BEREIT</span></span><button class="top-icon" title="Hilfe" data-page="help">?</button><button class="update-status-button" id="update-status-button">Updates</button><button class="avatar-top" id="top-avatar">N</button></div></header>
+
+      <section class="page active" id="page-home">
+        <div class="hero-card">
+          <div class="hero-art" aria-hidden="true">
+            <svg viewBox="0 0 1280 540" preserveAspectRatio="xMidYMid slice">
+              <defs><linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#111d35"/><stop offset=".56" stop-color="#495b75"/><stop offset="1" stop-color="#dd8b58"/></linearGradient><linearGradient id="sun-glow"><stop stop-color="#ffc67b" stop-opacity=".46"/><stop offset="1" stop-color="#ffc67b" stop-opacity="0"/></linearGradient><linearGradient id="field" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#426554"/><stop offset="1" stop-color="#152c2b"/></linearGradient></defs>
+              <rect width="1280" height="540" fill="url(#sky)"/><circle cx="975" cy="142" r="150" fill="url(#sun-glow)"/><circle cx="975" cy="142" r="36" fill="#ffd18e" opacity=".91"/>
+              <g fill="#f5c698" opacity=".19"><path d="M0 260h170v-24h64v-42h48v78h42v-30h72v48H0zM670 230h80v-46h46v20h78v54h54v-19h96v43H670zM1050 214h48v-31h70v48h112v55h-230z"/></g>
+              <path fill="#31465a" d="M0 366 180 211l76 72 123-145 113 129 124-165 165 201 83-106 107 96 96-59 113 105v201H0z"/>
+              <path fill="#d9d2c4" opacity=".67" d="m379 138 113 129-45-24-26 10-42-39-23 13-28-16zM503 102l165 201-61-44-39 2-37-54-32 14-38-19zM616 203l165 101-52-3-42 18-36-23-21 10-27-21z"/>
+              <path fill="#263a45" d="M0 356 109 248l69 61 118-135 134 195 121-159 117 141 92-145 129 136 107-86 106 97 98-61 100 74v174H0z"/>
+              <path fill="url(#field)" d="M0 371h1280v169H0z"/>
+              <g opacity=".65"><path fill="#244739" d="M0 408h160v-65h26v65h95v-92h27v92h86v-50h23v50h120v-105h29v105h102v-76h27v76h89v-112h25v112h111v-61h25v61h156v132H0z"/><path fill="#193629" d="M0 450h1280v90H0z"/></g>
+              <g fill="#c3e889" opacity=".45"><rect x="233" y="411" width="2" height="2"/><rect x="418" y="393" width="2" height="2"/><rect x="810" y="422" width="2" height="2"/><rect x="1017" y="388" width="2" height="2"/><rect x="1110" y="444" width="2" height="2"/></g>
+              <path d="M0 485c210-35 349 18 555-8s471-34 725 8v55H0z" fill="#0d2424" opacity=".65"/>
+            </svg>
+          </div>
+          <div class="hero-shade"></div>
+          <div class="hero-content"><div class="hero-eyebrow"><i></i> NOVA CLIENT <span>·</span> JAVA EDITION</div><h1>DEINE WELT.<br/><em>DEIN SPIEL.</em></h1><p>Ein Start. Dein Setup. Alles bereit.</p><div class="hero-actions"><button class="play-button" id="play-button"><span class="play-icon">▶</span><span>SPIEL STARTEN</span><kbd>↵</kbd></button><button class="profile-button" id="profile-select"><span class="profile-badge">N</span><span><small>AKTIVES PROFIL</small><b id="hero-profile">Nova Performance</b></span><span class="profile-chevron">⌄</span></button></div><div class="hero-footnote"><span class="ready-dot"></span><span id="launch-status">BEREIT ZUM SPIELEN</span><span class="hero-divider"></span><span>FABRIC <b>26.3</b></span></div></div>
+          <div class="hero-coordinate"><span>WORLD 01</span><b>46° 12′ N&nbsp; 07° 43′ E</b></div>
+          <div class="hero-edge">NOVA CLIENT <span>///</span> EXPLORE YOUR OWN WAY</div>
+        </div>
+        <div class="dashboard-grid">
+          <div class="main-column">
+            <section class="section-block"><div class="section-heading"><div><span class="section-kicker">DEIN SETUP</span><h2>Alles im grünen Bereich.</h2></div><button class="subtle-action" data-page="mods">MODS ANSEHEN <span>↗</span></button></div><div class="setup-card"><div class="setup-icon fabric-icon">F</div><div class="setup-copy"><b>Nova Performance</b><span>Fabric Loader · Minecraft Java 26.3</span></div><div class="setup-stat"><span>AKTIVE MODS</span><b id="active-mod-count">9 <small>MODS</small></b></div><div class="setup-stat"><span>ARBEITSSPEICHER</span><b id="ram-summary">4 <small>GB</small></b></div><button class="setup-settings" data-page="settings" aria-label="Einstellungen">⚙</button></div></section>
+            <section class="section-block mod-preview-block"><div class="section-heading"><div><span class="section-kicker">AUSGEWÄHLTE ERWEITERUNGEN</span><h2>Dein Client, dein Vorteil.</h2></div><button class="subtle-action" data-page="mods">ALLE 11 MODS <span>↗</span></button></div><div class="mod-preview" id="mod-preview"></div></section>
+          </div>
+          <aside class="right-column"><section class="news-card"><div class="news-cover"><span class="news-tag">NOVA CLIENT</span><div class="news-orbit">N<span>+</span></div><div class="cover-grid"></div><b>PLAY<br/>YOUR<br/><i>WAY.</i></b><small>01 / CLIENT OVERVIEW</small></div><div class="news-copy"><span class="news-date">NOVA CLIENT · VERSION 0.3.1</span><h3>Dein nächstes Abenteuer beginnt hier.</h3><p>Performance, nützliche HUD-Erweiterungen und deine Einstellungen — in einem Startfenster.</p><button data-page="about">MEHR ÜBER NOVA <span>↗</span></button></div></section><section class="quick-card"><div class="quick-top"><span class="section-kicker">SCHNELLZUGRIFF</span><span class="quick-dots">•••</span></div><button class="quick-row" id="open-game-folder"><span class="quick-symbol">▤</span><span><b>Spielordner öffnen</b><small>Logs, Mods und Welten</small></span><i>↗</i></button><button class="quick-row" id="open-website"><span class="quick-symbol">◈</span><span><b>Nova Website</b><small>News, Setup &amp; Support</small></span><i>↗</i></button></section></aside>
+        </div>
+      </section>
+
+      <section class="page" id="page-mods"><div class="page-intro"><span class="section-kicker">DEINE ERWEITERUNGEN</span><h1>Mod-Bibliothek</h1><p>Wähle die Mods, die dein Spiel ergänzen. Nova lädt passende Fabric-Versionen direkt von Modrinth.</p></div><div class="library-tools"><input type="search" class="mod-search" id="mod-search" placeholder="Mods durchsuchen …" aria-label="Mods durchsuchen"/><label class="active-only"><input type="checkbox" id="only-enabled"/> Nur aktive Mods</label><span class="result-count" id="mod-result-count" role="status"></span></div><div class="filter-row"><div class="filter-tabs"><button class="filter-tab active" data-filter="Alle">ALLE <span>11</span></button><button class="filter-tab" data-filter="Performance">PERFORMANCE</button><button class="filter-tab" data-filter="HUD">HUD</button><button class="filter-tab" data-filter="Grafik">GRAFIK</button><button class="filter-tab" data-filter="Werkzeuge">WERKZEUGE</button></div><div class="version-pill">FABRIC <b>26.3</b></div></div><div class="mods-grid" id="mods-grid"></div><p class="empty-note" id="mod-empty" hidden>Keine passenden Mods gefunden. Versuche einen anderen Suchbegriff oder Filter.</p><div class="info-banner"><span>ⓘ</span><div><b>Offizielle Modrinth-Downloads</b><small>Nova prüft Version und SHA-1 jeder Datei und ergänzt erforderliche Abhängigkeiten automatisch.</small></div></div></section>
+
+      <section class="page" id="page-hud"><div class="page-intro"><span class="section-kicker">WIE DU SPIELST</span><h1>HUD &amp; Interface</h1><p>Deine Info-Overlays aus dem Nova-Modpack. Die Tastenbelegung passt du später im Spiel an.</p></div><div class="hud-layout"><div class="hud-preview"><div class="hud-screen"><div class="hud-sky"></div><div class="hud-crosshair">+</div><div class="hud-hearts">♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥</div><div class="hud-hunger">● ● ● ● ● ● ● ● ● ●</div><div class="hud-hotbar"><i>▧</i><i>▧</i><i>▧</i><i>▧</i><i>▧</i><i>▧</i><i>▧</i><i>▧</i><i>▧</i></div><div class="hud-food">Sättigung <b>14 / 20</b><span>+6 Nahrung</span></div><div class="hud-jade"><span>⌖</span> Stein <small>Block</small></div><div class="hud-map"><i></i><b>N</b><small>Wegpunkt</small></div><div class="hud-caption">NOVA HUD VORSCHAU <span>26.3</span></div></div></div><div class="hud-options"><div class="hud-option"><div class="hud-option-icon">◒</div><div><b>Nahrung &amp; Sättigung</b><small>AppleSkin · zeigt deinen echten Hungerwert</small></div><label class="toggle"><input type="checkbox" data-hud-mod="appleskin" checked/><span></span></label></div><div class="hud-option"><div class="hud-option-icon">⌖</div><div><b>Block- &amp; Kreatureninfo</b><small>Jade · Infos direkt am Fadenkreuz</small></div><label class="toggle"><input type="checkbox" data-hud-mod="jade" checked/><span></span></label></div><div class="hud-option"><div class="hud-option-icon">◎</div><div><b>Minimap &amp; Wegpunkte</b><small>Xaero's Minimap · Orientierung im HUD</small></div><label class="toggle"><input type="checkbox" data-hud-mod="xaeros-minimap"/><span></span></label></div><div class="hud-option"><div class="hud-option-icon">⊕</div><div><b>Zoom</b><small>Zoomify · Nahansicht auf Tastendruck</small></div><label class="toggle"><input type="checkbox" data-hud-mod="zoomify" checked/><span></span></label></div><div class="hud-tip"><span>⌨</span><span><b>Deine Steuerung</b><small>Die genaue Taste für Zoom und Mod-Menüs stellst du unter „Steuerung“ im Minecraft-Menü ein.</small></span></div></div></div></section>
+
+      <section class="page" id="page-settings"><div class="page-intro"><span class="section-kicker">DEIN CLIENT</span><h1>Einstellungen</h1><p>Lege fest, wie Nova Minecraft auf deinem PC startet.</p></div><div class="settings-layout"><div class="settings-nav"><button class="settings-tab active" data-settings="game">Spiel</button><button class="settings-tab" data-settings="memory">Arbeitsspeicher</button><button class="settings-tab" data-settings="appearance">Darstellung</button><button class="settings-tab" data-settings="updates">Updates</button><button class="settings-tab" data-settings="account">Konto &amp; Daten</button></div><div class="settings-content" id="settings-content"></div></div><div class="settings-actions"><span id="settings-saved">Änderungen werden lokal auf diesem PC gespeichert.</span><button class="save-button" id="save-settings">ÄNDERUNGEN SPEICHERN</button></div></section>
+
+      <section class="page" id="page-about"><div class="page-intro"><span class="section-kicker">NOVA CLIENT</span><h1>Mehr Zeit zum Spielen.</h1><p>Ein leichter Windows-Launcher für Minecraft Java mit durchdachtem HUD und Performance-Setup.</p></div><div class="about-grid"><div class="about-card big-about"><span class="about-star">✦</span><span class="section-kicker">NOVA CLIENT · 0.3.1</span><h2>Von der ersten Anmeldung<br/>bis zum fertigen Spiel.</h2><p>Microsoft-Login, Fabric, Java und Mods laufen in einem geführten Start. Spielwelten bleiben auf deinem Gerät.</p><button class="play-button mini-play" id="about-play"><span>SPIEL STARTEN</span><span>↗</span></button></div><div class="about-card"><span class="about-number">01</span><h3>Sicher anmelden</h3><p>Microsoft meldet dich in einem eigenen Login-Fenster an. Anmeldedaten speichert Windows geschützt.</p></div><div class="about-card"><span class="about-number">02</span><h3>Automatisch einrichten</h3><p>Nova lädt die Java-Laufzeit, Fabric und deine gewählten Mods beim ersten Start nach.</p></div><div class="about-card"><span class="about-number">03</span><h3>Deine Welten bleiben deine</h3><p>Nova verwaltet nur die Dateien, die es selbst installiert, und lässt Welten und Einstellungen in Ruhe.</p></div></div></section>
+
+      <footer class="app-footer"><span>© NOVA CLIENT <b>2026</b></span><span>BUILT TO PLAY <i>✦</i></span><span>WINDOWS · MINECRAFT JAVA</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="modal-scrim" id="modal-scrim"><section class="modal-card" id="modal-card" role="dialog" aria-modal="true"><button class="modal-x" id="modal-x" aria-label="Schließen">×</button><span class="section-kicker" id="modal-kicker">NOVA CLIENT</span><h2 id="modal-title">Profil wählen</h2><div id="modal-body"></div></section></div>
+  <div class="progress-scrim" id="progress-scrim"><div class="progress-card"><div class="progress-symbol"><span>✦</span></div><span class="section-kicker">ERSTER START</span><h2 id="progress-title">Nova bereitet alles vor.</h2><p id="progress-detail">Java, Fabric und deine Mods werden eingerichtet.</p><div class="progress-track"><span id="progress-fill"></span></div><div class="progress-footer"><span id="progress-stage">VORBEREITUNG</span><span id="progress-percent">—</span></div><button class="folder-button progress-dismiss" id="progress-dismiss" hidden>Zurück zum Launcher</button></div></div>
+  <script src="./app.js"></script>
+</body>
+</html>

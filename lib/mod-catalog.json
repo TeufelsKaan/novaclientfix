@@ -1,0 +1,22 @@
+{
+  "gameVersion": "26.3",
+  "loader": "fabric",
+  "profiles": {
+    "performance": { "name": "Nova Performance", "description": "Hohe FPS, schnelle Ladezeiten und ein sauberes HUD.", "mods": ["sodium", "lithium", "ferrite-core", "entityculling", "dynamic-fps", "modmenu", "appleskin", "jade", "zoomify"] },
+    "pvp": { "name": "Nova PvP", "description": "Klare Sicht, Zoom und nützliche Kampf-Infos.", "mods": ["sodium", "lithium", "entityculling", "modmenu", "appleskin", "zoomify"] },
+    "explore": { "name": "Nova Explore", "description": "Minimap, Erkundungs-HUD und optional Shader.", "mods": ["sodium", "lithium", "ferrite-core", "iris", "modmenu", "appleskin", "jade", "xaeros-minimap", "zoomify"] }
+  },
+  "mods": [
+    { "slug": "sodium", "name": "Sodium", "category": "Performance", "description": "Mehr Bilder pro Sekunde mit optimiertem Rendering.", "default": true, "hud": false },
+    { "slug": "lithium", "name": "Lithium", "category": "Performance", "description": "Optimiert die Spiel-Logik für einen flüssigeren Ablauf.", "default": true, "hud": false },
+    { "slug": "ferrite-core", "name": "FerriteCore", "category": "Performance", "description": "Reduziert den Speicherbedarf der Spielwelt.", "default": true, "hud": false },
+    { "slug": "entityculling", "name": "Entity Culling", "category": "Performance", "description": "Zeichnet verdeckte Kreaturen und Blöcke nicht unnötig.", "default": true, "hud": false },
+    { "slug": "dynamic-fps", "name": "Dynamic FPS", "category": "Performance", "description": "Spart Leistung, wenn Minecraft im Hintergrund läuft.", "default": true, "hud": false },
+    { "slug": "modmenu", "name": "Mod Menu", "category": "Werkzeuge", "description": "Verwaltet installierte Mods direkt im Spielmenü.", "default": true, "hud": false },
+    { "slug": "appleskin", "name": "AppleSkin", "category": "HUD", "description": "Zeigt Sättigung und den Wert von Nahrung an.", "default": true, "hud": true },
+    { "slug": "jade", "name": "Jade", "category": "HUD", "description": "Zeigt Infos zu Blöcken und Kreaturen im Fadenkreuz.", "default": true, "hud": true },
+    { "slug": "xaeros-minimap", "name": "Xaero's Minimap", "category": "HUD", "description": "Ergänzt eine anpassbare Minimap und Wegpunkte.", "default": false, "hud": true },
+    { "slug": "zoomify", "name": "Zoomify", "category": "HUD", "description": "Fügt einen frei konfigurierbaren Zoom hinzu.", "default": true, "hud": true },
+    { "slug": "iris", "name": "Iris Shaders", "category": "Grafik", "description": "Ermöglicht Shader-Pakete zusammen mit Sodium.", "default": false, "hud": false }
+  ]
+}

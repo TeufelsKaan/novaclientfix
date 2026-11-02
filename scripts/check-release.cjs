@@ -1,0 +1,18 @@
+const fs=require('node:fs');const path=require('node:path');const crypto=require('node:crypto');const assert=require('node:assert/strict');
+const yaml=require('js-yaml');
+const root=path.join(__dirname,'../release');
+const pkg=require('../package.json');
+const metadata=yaml.load(fs.readFileSync(path.join(root,'latest.yml'),'utf8'));
+assert.equal(metadata.version,pkg.version);
+const filename=`Nova-Client-Setup-${pkg.version}.exe`;
+const entry=metadata.files.find(file=>file.url===filename);
+assert.ok(entry,'Versioned installer must be present in update metadata');
+const installer=fs.readFileSync(path.join(root,filename));
+assert.equal(crypto.createHash('sha512').update(installer).digest('base64'),entry.sha512,'Installer SHA-512 must match the published manifest');
+assert.equal(installer.length,entry.size);
+assert.ok(fs.statSync(path.join(root,`${filename}.blockmap`)).size>0);
+const embedded=yaml.load(fs.readFileSync(path.join(root,'win-unpacked/resources/app-update.yml'),'utf8'));
+assert.equal(embedded.provider,'generic');
+assert.equal(embedded.url,process.env.NOVA_UPDATE_URL||require('../updates.config.json').url);
+fs.copyFileSync(path.join(root,filename),path.join(root,'Nova-Client-Setup.exe'));
+console.log(`PASS ${pkg.version} release metadata, installer checksum, blockmap and embedded update URL`);

@@ -1,0 +1,74 @@
+# Nova Client
+
+**0.3.1:** Update errors now distinguish an unavailable channel, connection failure and a damaged download. Every check records its attempt time, including failed checks. The public release repository is now `TeufelsKaan/novaclientfix`. Version 0.3.0 still points to the inaccessible old `TeufelsKaan/Nova-Client` repository and needs one manual upgrade to 0.3.1 unless the old channel is restored or redirected. The update service cannot remotely change an address in an unreachable older installation. See `CHANGELOG.md`.
+
+## Automatic launcher updates (0.3.0 and later)
+
+The Windows launcher checks for releases at startup and every 30 minutes, downloads verified updates in the background, and installs them when quitting. Settings → Updates also offers a manual check and **Neustarten & installieren**. Installation waits while Minecraft is running or starting. Closing Nova during a running game defers installation until a later launcher session. Accounts, settings and game files live outside the installation directory.
+
+The update channel is `https://github.com/TeufelsKaan/novaclientfix/releases/latest/download/`, configured in `updates.config.json` at build time. Release assets must be publicly downloadable without signing in. Existing versions 0.1 and 0.2 have no updater, and 0.3.0 points to the old unavailable channel: their users need to install version 0.3.1 once manually. A local installer alone does not publish a release.
+
+To publish a new update after uploading this source to the repository:
+
+1. Increment the version in `package.json` and `package-lock.json` (`npm version patch --no-git-tag-version`), and update version labels in the HTML.
+2. Run `npm test`, `npm run check:ui`, `npm run check:updater` and `npm run package:win`.
+3. Commit and push source changes, then create and push the corresponding tag, for example `v0.3.1`.
+4. `.github/workflows/release.yml` builds on Windows, runs the checks, uploads the installer, blockmap, `latest.yml` and a stable website installer alias to a draft GitHub release, then publishes the complete release. The workflow fails if the tag and version do not match or the repository is private.
+5. Confirm the published release and public download URLs. Installed clients pick it up on their next check; open clients check every 30 minutes. Offline clients receive it after reconnecting and checking again.
+
+For manual publishing, upload `release/Nova-Client-Setup-<version>.exe`, its `.blockmap`, a copy named `Nova-Client-Setup.exe`, and **last** `release/latest.yml` to the same public release. Never replace an already released version's installer with different bytes. Use a higher version for fixes or rollbacks. Keep the repository and update URL stable after clients have installed it.
+
+`NOVA_UPDATE_URL` can override the public HTTPS directory at build time for Cloudflare R2 or another static host. This creates a separate channel, so all subsequent releases must be uploaded there as well. No publishing credentials are included in the installer. `npm run check:updater` exercises the actual updater against an isolated local server: a valid download is accepted, a modified download fails its SHA-512 check, and no installer is executed.
+
+Version 0.2.0 brings a redesigned launcher with larger text, more contrast, larger controls and responsive cards. Use **Einstellungen → Darstellung** to choose 16 px or 18 px base text. The mod library supports search, category filters, an enabled-only filter and **Ctrl + K** to open search. Launch errors now have a visible return button.
+
+Nova Client is a Windows desktop launcher for Minecraft Java Edition with a companion website. The launcher uses Microsoft sign-in, installs Java and Fabric on first start, and downloads the selected client-side mods from Modrinth. It does not provide a Minecraft account or game licence.
+
+## Run the desktop app
+
+```powershell
+npm install
+npm run dev
+```
+
+Sign in with a Microsoft account that owns Minecraft: Java Edition, choose a Nova profile, then select **Spiel starten**. The first launch downloads the game files, Java runtime, Fabric and enabled mods. Current profiles target Minecraft Java 26.3 with Fabric.
+
+## Build the Windows installer
+
+```powershell
+npm run package:win
+```
+
+The NSIS installer, blockmap and `latest.yml` are written to `release/`. The website points to the stable installer alias on the GitHub release; it becomes available after publishing the first release.
+
+## Website and hosting
+
+- Local website preview: `npm run web:dev`
+- Website build: `npm run web:build`
+- Cloudflare Workers static assets: sign in with Wrangler, then run `npm run deploy:cloudflare`
+- Vercel: link `website/` to a Vercel project once, then run `npm run deploy:vercel`
+
+The optional GitHub Actions workflow in `.github/workflows/deploy.yml` can deploy both providers. Add repository secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` before running it. Those account connections and public deployment have not been performed by this local build.
+
+## Profiles
+
+- **Nova Performance** — rendering, game-logic and HUD essentials
+- **Nova PvP** — clean performance setup with food HUD and zoom
+- **Nova Explore** — map and exploration HUD with optional shaders
+
+Nova verifies downloaded mod files against their Modrinth SHA-1 hashes. Required Modrinth dependencies are resolved automatically. It tracks only the jar files it installed, so worlds, screenshots and settings are kept.
+
+## Tests
+
+```powershell
+npm test
+npm run check:ui
+```
+
+The unit tests cover compatible Fabric mod version selection and primary jar-file resolution. The game launch still requires a licensed Microsoft Minecraft account and a first-run download.
+
+The Electron UI checks use an isolated temporary account store and verify mod search, empty results, enabled-only filtering, text preferences, error dismissal and layouts at 1000 px and 1440 px with large text. Screenshots are saved to `release/previews/`. For website checks, start `npm run web:dev -- --port 4175`, then run `npx electron scripts/check-site.cjs` in another terminal. The checks cover 390 px and 1440 px widths, readable hero text and decorative background containment.
+
+## Project notes
+
+Nova Client is an independent community project, not affiliated with Mojang Studios or Microsoft. Minecraft is a trademark of Mojang Studios.
