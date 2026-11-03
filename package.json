@@ -8,7 +8,7 @@
     "dev": "electron .",
     "build:hud-mod": "nova-hud-mod\\gradlew.bat -p nova-hud-mod build && node scripts/copy-hud-mod.cjs",
     "web:dev": "vite website --host 127.0.0.1",
-    "web:build": "vite build website --outDir dist --emptyOutDir",
+    "web:build": "vite build website --config website/vite.config.cjs --outDir dist --emptyOutDir",
     "build:icon": "node scripts/create-icon.cjs",
     "test": "node --test",
     "package:win": "npm run build:icon && npm run build:hud-mod && npm run web:build && electron-builder --config electron-builder.config.cjs --win nsis --publish never",
