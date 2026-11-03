@@ -40,17 +40,16 @@ document.querySelector('#login-form').addEventListener('submit', async event => 
   event.preventDefault();
   if (!supabase) return;
   loginButton.disabled = true;
-  status('Anmeldelink wird gesendet …');
+  status('Anmeldung wird geprüft …');
   try {
     const email = document.querySelector('#admin-email').value.trim();
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: new URL('./admin.html', location.href).href, shouldCreateUser: true },
-    });
+    const password = document.querySelector('#admin-password').value;
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
-    status('Der Link ist unterwegs. Prüfe dein E-Mail-Postfach.');
+    const { data } = await supabase.auth.getSession();
+    await verifyAdmin(data.session);
   } catch (error) {
-    status(error.message || 'Der Anmeldelink konnte nicht gesendet werden.', true);
+    status('Anmeldung fehlgeschlagen. Prüfe E-Mail und Passwort.', true);
   } finally { loginButton.disabled = false; }
 });
 document.querySelector('#signout-button').addEventListener('click', async () => {
