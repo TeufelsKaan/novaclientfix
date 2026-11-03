@@ -1,3 +1,11 @@
+# Nova Client 0.4.0
+
+- Adds the official Minecraft Java version list, including releases and snapshots, with Vanilla, Fabric, Quilt, Forge and NeoForge loader selection.
+- Stores each game version and loader in its own profile folder and applies the chosen settings before launch.
+- Adds Modrinth modpack link and `.mrpack` imports with HTTPS downloads, hash verification and safe override extraction.
+- Adds CurseForge exported `.zip` imports. Some packs need a CurseForge-approved API key to retrieve their referenced mod files; Nova reports that requirement instead of pretending the pack was installed.
+- Skips Nova's Fabric-only HUD setup on other loaders and versions where it is not compatible.
+
 # Nova Client 0.3.3
 
 - Adds a custom Nova icon to the Windows app and installer.

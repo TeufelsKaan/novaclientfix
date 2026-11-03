@@ -2,6 +2,9 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('novaClient', {
   getState: () => ipcRenderer.invoke('nova:get-state'),
+  getMinecraftVersions: () => ipcRenderer.invoke('nova:get-minecraft-versions'),
+  getLoaderVersions: (gameVersion, loader) => ipcRenderer.invoke('nova:get-loader-versions', gameVersion, loader),
+  importModpack: (url = '') => ipcRenderer.invoke('nova:import-modpack', url),
   login: () => ipcRenderer.invoke('nova:login'),
   logout: () => ipcRenderer.invoke('nova:logout'),
   saveSettings: (settings) => ipcRenderer.invoke('nova:save-settings', settings),

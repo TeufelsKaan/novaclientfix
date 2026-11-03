@@ -1,6 +1,6 @@
 # Nova Client
 
-**0.3.3:** Adds the Nova icon, makes website downloads public and restores the public GitHub update channel. **0.3.2:** Adds the built-in Nova HUD mod and opens Nova on the secondary display. **0.3.1:** Update errors now distinguish an unavailable channel, connection failure and a damaged download. Every check records its attempt time, including failed checks. The public release repository is `TeufelsKaan/novaclientfix`. Version 0.3.0 still points to the inaccessible old `TeufelsKaan/Nova-Client` repository and needs one manual upgrade to 0.3.1 unless the old channel is restored or redirected. The update service cannot remotely change an address in an unreachable older installation. See `CHANGELOG.md`.
+**0.4.0:** Adds all official Minecraft Java versions, Vanilla/Fabric/Quilt/Forge/NeoForge choices, and Modrinth/CurseForge modpack import. CurseForge exports that list file IDs still need an approved CurseForge API key to download those files. **0.3.3:** Adds the Nova icon, makes website downloads public and restores the public GitHub update channel. See `CHANGELOG.md`.
 
 ## Automatic launcher updates (0.3.0 and later)
 
@@ -22,7 +22,7 @@ For manual publishing, upload `release/Nova-Client-Setup-<version>.exe`, its `.b
 
 Version 0.2.0 brings a redesigned launcher with larger text, more contrast, larger controls and responsive cards. Use **Einstellungen → Darstellung** to choose 16 px or 18 px base text. The mod library supports search, category filters, an enabled-only filter and **Ctrl + K** to open search. Launch errors now have a visible return button.
 
-Nova Client is a Windows desktop launcher for Minecraft Java Edition with a companion website. The launcher uses Microsoft sign-in, installs Java and Fabric on first start, and downloads the selected client-side mods from Modrinth. It does not provide a Minecraft account or game licence.
+Nova Client is a Windows desktop launcher for Minecraft Java Edition with a companion website. The launcher uses Microsoft sign-in, installs Java and the selected loader on first start, and downloads compatible client-side mods from Modrinth. It does not provide a Minecraft account or game licence.
 
 ## Run the desktop app
 
@@ -31,7 +31,9 @@ npm install
 npm run dev
 ```
 
-Sign in with a Microsoft account that owns Minecraft: Java Edition, choose a Nova profile, then select **Spiel starten**. The first launch downloads the game files, Java runtime, Fabric and enabled mods. Current profiles target Minecraft Java 26.3 with Fabric.
+Sign in with a Microsoft account that owns Minecraft: Java Edition, open **Einstellungen → Spiel**, choose a Minecraft version and loader, then select **Spiel starten**. Nova loads the official Mojang version catalog and compatible loader metadata. The first launch downloads game files and the matching Java runtime.
+
+The same settings page accepts Modrinth project links and `.mrpack` files, plus CurseForge export `.zip` files or direct `.zip` links. CurseForge manifests commonly reference mod files by ID; those files are downloaded only when the pack provides direct URLs or a CurseForge-approved API key is configured. No API key is bundled with Nova.
 
 ## Build the Windows installer
 
@@ -67,7 +69,7 @@ npm test
 npm run check:ui
 ```
 
-The unit tests cover compatible Fabric mod version selection and primary jar-file resolution. The game launch still requires a licensed Microsoft Minecraft account and a first-run download.
+The unit tests cover Mojang version lists, Vanilla/Fabric/Forge loader metadata, Modrinth package verification and safe archive paths, as well as compatible mod version selection. The game launch still requires a licensed Microsoft Minecraft account and a first-run download.
 
 The Electron UI checks use an isolated temporary account store and verify mod search, empty results, enabled-only filtering, text preferences, error dismissal and layouts at 1000 px and 1440 px with large text. Screenshots are saved to `release/previews/`. For website checks, start `npm run web:dev -- --port 4175`, then run `npx electron scripts/check-site.cjs` in another terminal. The checks cover 390 px and 1440 px widths, readable hero text and decorative background containment.
 

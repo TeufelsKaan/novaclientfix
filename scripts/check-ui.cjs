@@ -33,7 +33,14 @@ app.whenReady().then(async () => {
     await check('enabled filter excludes disabled mods', `[...document.querySelectorAll('.mod-card:not(.filtered-out) input')].every(input=>input.checked)`);
     await delay(150);
     fs.writeFileSync(path.join(output, 'nova-mods.png'), (await win.webContents.capturePage()).toPNG());
-    await run(`document.querySelector('[data-page="settings"]').click();document.querySelector('[data-settings="appearance"]').click();document.querySelector('#text-size').value='large';document.querySelector('#text-size').dispatchEvent(new Event('change'))`);
+    await run(`document.querySelector('[data-page="settings"]').click();document.querySelector('[data-settings="game"]').click()`);
+    await check('all game versions and requested loaders are selectable', `document.querySelector('#setting-minecraft-version').options.length>0&&['vanilla','fabric','quilt','forge','neoforge'].every(value=>[...document.querySelector('#setting-loader').options].some(option=>option.value===value))`);
+    await check('Modrinth and CurseForge modpack import controls are available', `document.querySelector('#import-pack-link')&&document.querySelector('#import-pack-file')&&document.querySelector('#modpack-url')`);
+    await delay(250);
+    fs.writeFileSync(path.join(output, 'nova-settings.png'), (await win.webContents.capturePage()).toPNG());
+    await run(`document.querySelector('#setting-loader').value='vanilla';document.querySelector('#setting-loader').dispatchEvent(new Event('change'))`);
+    await check('Vanilla hides the unnecessary loader version selector', `document.querySelector('#setting-loader-version').hidden`);
+    await run(`document.querySelector('#setting-loader').value='fabric';document.querySelector('#setting-loader').dispatchEvent(new Event('change'));document.querySelector('[data-settings="appearance"]').click();document.querySelector('#text-size').value='large';document.querySelector('#text-size').dispatchEvent(new Event('change'))`);
     await check('extra large text preference', `getComputedStyle(document.documentElement).fontSize==='18px'&&localStorage.getItem('nova-text-size')==='large'`);
     for (const [width,height] of [[1000,720],[1440,920]]) {
       win.setSize(width,height);await delay(150);

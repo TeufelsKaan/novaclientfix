@@ -1,8 +1,8 @@
 {
   "name": "nova-client",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "private": true,
-  "description": "Nova Client — Windows Minecraft Java launcher with Fabric and HUD mods.",
+  "description": "Nova Client — Windows Minecraft Java launcher with multiple loaders, modpacks and HUD mods.",
   "main": "electron/main.cjs",
   "scripts": {
     "dev": "electron .",
@@ -21,14 +21,16 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
     "electron-updater": "^6.8.11",
-    "eml-lib": "^2.2.0"
+    "eml-lib": "^2.2.0",
+    "yauzl": "^3.4.0"
   },
   "devDependencies": {
     "electron": "^45.2.1",
     "electron-builder": "^26.18.0",
     "png-to-ico": "^3.0.2",
     "sharp": "^0.35.5",
-    "vite": "^8.3.5"
+    "vite": "^8.3.5",
+    "yazl": "^3.3.1"
   },
   "build": {
     "appId": "gg.nova.client",
