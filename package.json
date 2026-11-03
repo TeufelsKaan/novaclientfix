@@ -1,15 +1,16 @@
 {
   "name": "nova-client",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "private": true,
   "description": "Nova Client — Windows Minecraft Java launcher with Fabric and HUD mods.",
   "main": "electron/main.cjs",
   "scripts": {
     "dev": "electron .",
+    "build:hud-mod": "nova-hud-mod\\gradlew.bat -p nova-hud-mod build && node scripts/copy-hud-mod.cjs",
     "web:dev": "vite website --host 127.0.0.1",
     "web:build": "vite build website --outDir ../dist-website --emptyOutDir",
     "test": "node --test",
-    "package:win": "npm run web:build && electron-builder --config electron-builder.config.cjs --win nsis --publish never",
+    "package:win": "npm run build:hud-mod && npm run web:build && electron-builder --config electron-builder.config.cjs --win nsis --publish never",
     "package:dir": "electron-builder --config electron-builder.config.cjs --win dir --publish never",
     "deploy:cloudflare": "npx wrangler@latest deploy --config wrangler.toml",
     "deploy:vercel": "npx vercel@latest --prod ./website",

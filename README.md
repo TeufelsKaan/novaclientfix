@@ -1,6 +1,6 @@
 # Nova Client
 
-**0.3.1:** Update errors now distinguish an unavailable channel, connection failure and a damaged download. Every check records its attempt time, including failed checks. The public release repository is now `TeufelsKaan/novaclientfix`. Version 0.3.0 still points to the inaccessible old `TeufelsKaan/Nova-Client` repository and needs one manual upgrade to 0.3.1 unless the old channel is restored or redirected. The update service cannot remotely change an address in an unreachable older installation. See `CHANGELOG.md`.
+**0.3.2:** Adds the built-in Nova HUD mod and opens Nova on the secondary display. **0.3.1:** Update errors now distinguish an unavailable channel, connection failure and a damaged download. Every check records its attempt time, including failed checks. The public release repository is now `TeufelsKaan/novaclientfix`. Version 0.3.0 still points to the inaccessible old `TeufelsKaan/Nova-Client` repository and needs one manual upgrade to 0.3.1 unless the old channel is restored or redirected. The update service cannot remotely change an address in an unreachable older installation. See `CHANGELOG.md`.
 
 ## Automatic launcher updates (0.3.0 and later)
 
@@ -12,7 +12,7 @@ To publish a new update after uploading this source to the repository:
 
 1. Increment the version in `package.json` and `package-lock.json` (`npm version patch --no-git-tag-version`), and update version labels in the HTML.
 2. Run `npm test`, `npm run check:ui`, `npm run check:updater` and `npm run package:win`.
-3. Commit and push source changes, then create and push the corresponding tag, for example `v0.3.1`.
+3. Commit and push source changes, then create and push the matching version tag, for example `v0.3.2`.
 4. `.github/workflows/release.yml` builds on Windows, runs the checks, uploads the installer, blockmap, `latest.yml` and a stable website installer alias to a draft GitHub release, then publishes the complete release. The workflow fails if the tag and version do not match or the repository is private.
 5. Confirm the published release and public download URLs. Installed clients pick it up on their next check; open clients check every 30 minutes. Offline clients receive it after reconnecting and checking again.
 
@@ -57,6 +57,8 @@ The optional GitHub Actions workflow in `.github/workflows/deploy.yml` can deplo
 - **Nova Explore** — map and exploration HUD with optional shaders
 
 Nova verifies downloaded mod files against their Modrinth SHA-1 hashes. Required Modrinth dependencies are resolved automatically. It tracks only the jar files it installed, so worlds, screenshots and settings are kept.
+
+Nova also includes its own Fabric mod, **Nova HUD**, with FPS, coordinates, facing direction and dimension information. It is built from `nova-hud-mod/` and bundled into the Windows installer. The development build needs Java 25; `npm run package:win` builds and bundles the mod automatically. Nova opens on the secondary display when one is connected.
 
 ## Tests
 

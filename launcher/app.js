@@ -5,9 +5,9 @@ const bridge = window.novaClient || null;
 const fallbackCatalog = {
   gameVersion: '26.3', loader: 'fabric',
   profiles: {
-    performance: { name: 'Nova Performance', description: 'Hohe FPS, schnelle Ladezeiten und ein sauberes HUD.', mods: ['sodium','lithium','ferrite-core','entityculling','dynamic-fps','modmenu','appleskin','jade','zoomify'] },
-    pvp: { name: 'Nova PvP', description: 'Klare Sicht, Zoom und nützliche Kampf-Infos.', mods: ['sodium','lithium','entityculling','modmenu','appleskin','zoomify'] },
-    explore: { name: 'Nova Explore', description: 'Minimap, Erkundungs-HUD und optional Shader.', mods: ['sodium','lithium','ferrite-core','iris','modmenu','appleskin','jade','xaeros-minimap','zoomify'] }
+    performance: { name: 'Nova Performance', description: 'Hohe FPS, schnelle Ladezeiten und ein sauberes HUD.', mods: ['sodium','lithium','ferrite-core','entityculling','dynamic-fps','modmenu','appleskin','jade','zoomify','nova-hud'] },
+    pvp: { name: 'Nova PvP', description: 'Klare Sicht, Zoom und nützliche Kampf-Infos.', mods: ['sodium','lithium','entityculling','modmenu','appleskin','zoomify','nova-hud'] },
+    explore: { name: 'Nova Explore', description: 'Minimap, Erkundungs-HUD und optional Shader.', mods: ['sodium','lithium','ferrite-core','iris','modmenu','appleskin','jade','xaeros-minimap','zoomify','nova-hud'] }
   },
   mods: [
     {slug:'sodium',name:'Sodium',category:'Performance',description:'Mehr Bilder pro Sekunde mit optimiertem Rendering.',default:true,hud:false},
@@ -20,6 +20,7 @@ const fallbackCatalog = {
     {slug:'jade',name:'Jade',category:'HUD',description:'Zeigt Infos zu Blöcken und Kreaturen im Fadenkreuz.',default:true,hud:true},
     {slug:'xaeros-minimap',name:"Xaero's Minimap",category:'HUD',description:'Ergänzt eine anpassbare Minimap und Wegpunkte.',default:false,hud:true},
     {slug:'zoomify',name:'Zoomify',category:'HUD',description:'Fügt einen frei konfigurierbaren Zoom hinzu.',default:true,hud:true},
+    {slug:'nova-hud',name:'Nova HUD',category:'HUD',description:'Eigenes Overlay für FPS, Koordinaten, Blickrichtung und Dimension.',default:true,hud:true,bundled:true},
     {slug:'iris',name:'Iris Shaders',category:'Grafik',description:'Ermöglicht Shader-Pakete zusammen mit Sodium.',default:false,hud:false}
   ]
 };
@@ -27,7 +28,7 @@ let appState = { loggedIn:false, username:null, settings:{profile:'performance',
 let activeFilter='Alle';
 let settingsTab='game';
 let toastTimeout;
-let updateState={status:'disabled',currentVersion:'0.3.1',nextVersion:null,percent:0,checkedAt:null,attemptedAt:null,errorCode:null};
+let updateState={status:'disabled',currentVersion:'0.3.2',nextVersion:null,percent:0,checkedAt:null,attemptedAt:null,errorCode:null};
 const updateLabels={disabled:'Updates sind in der Windows-Installation verfügbar.',idle:'Nova sucht automatisch nach neuen Versionen.',checking:'Nova sucht nach Updates …',current:'Du nutzt die neueste verfügbare Version.',downloading:'Eine neue Version wird im Hintergrund geladen.',ready:'Dein Update ist bereit zur Installation.',installing:'Nova wird für das Update neu gestartet.',error:'Updates sind gerade nicht erreichbar. Nova versucht es später erneut.'};
 const updateErrorLabels={channel_unavailable:'Der Update-Kanal ist noch nicht veröffentlicht oder nicht öffentlich erreichbar. Bitte versuche es später erneut.',network:'Die Verbindung zum Update-Server ist unterbrochen. Prüfe deine Internetverbindung und versuche es erneut.',integrity:'Der Update-Download ist beschädigt oder konnte nicht bestätigt werden. Er wird nicht installiert. Bitte lade das Update erneut.',server:'Der Update-Server hat die Anfrage abgelehnt oder ist vorübergehend nicht verfügbar. Bitte versuche es später erneut.'};
 function receiveUpdateState(next){

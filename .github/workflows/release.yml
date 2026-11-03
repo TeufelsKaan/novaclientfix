@@ -17,6 +17,10 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
       - name: Validate release version
         shell: pwsh
         run: |

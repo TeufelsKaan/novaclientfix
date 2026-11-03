@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain, safeStorage, shell } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, safeStorage, shell, screen } = require('electron');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
@@ -14,7 +14,7 @@ let activeAccount = null;
 let launchBusy = false;
 let gameRunning = false;
 let updates;
-const defaults = { profile: 'performance', ramMB: 4096, selectedMods: catalog.mods.filter((m) => m.default).map((m) => m.slug), resolution: '1280x720' };
+const defaults = { profile: 'performance', ramMB: 4096, selectedMods: catalog.mods.filter((m) => m.default).map((m) => m.slug), resolution: '1280x720', modPackVersion: 2 };
 let settings = { ...defaults };
 const profileKeys = new Set(Object.keys(catalog.profiles));
 const modKeys = new Set(catalog.mods.map((m) => m.slug));
@@ -31,13 +31,19 @@ function publicState() {
 function normalizeSettings(data = {}) {
   const profile = profileKeys.has(data.profile) ? data.profile : defaults.profile;
   const ramMB = Math.min(12288, Math.max(2048, Math.round(Number(data.ramMB) / 512) * 512 || defaults.ramMB));
-  const selectedMods = Array.isArray(data.selectedMods) ? [...new Set(data.selectedMods.filter((slug) => modKeys.has(slug)))] : defaults.selectedMods;
+  const selectedMods = Array.isArray(data.selectedMods) ? [...new Set(data.selectedMods.filter((slug) => modKeys.has(slug)))] : [...defaults.selectedMods];
+  if ((Number(data.modPackVersion) || 0) < 2 && !selectedMods.includes('nova-hud')) selectedMods.push('nova-hud');
   const resolution = ['1280x720', '1600x900', '1920x1080'].includes(data.resolution) ? data.resolution : defaults.resolution;
-  return { profile, ramMB, selectedMods, resolution };
+  return { profile, ramMB, selectedMods, resolution, modPackVersion: 2 };
 }
 function createWindow() {
+  const primary = screen.getPrimaryDisplay();
+  const display = screen.getAllDisplays().find((item) => item.id !== primary.id) || primary;
+  const width = Math.min(1440, display.workArea.width);
+  const height = Math.min(920, display.workArea.height);
   mainWindow = new BrowserWindow({
-    width: 1440, height: 920, minWidth: 1000, minHeight: 680,
+    width, height, x: display.workArea.x + Math.round((display.workArea.width - width) / 2),
+    y: display.workArea.y + Math.round((display.workArea.height - height) / 2), minWidth: 1000, minHeight: 680,
     backgroundColor: '#0b0f15', title: 'Nova Client', autoHideMenuBar: true,
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true }
   });
@@ -65,7 +71,7 @@ async function loadAccount() {
 }
 
 async function resolveFabricVersion() {
-  const response = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${catalog.gameVersion}`, { headers: { 'User-Agent': 'NovaClient/0.3.1' } });
+  const response = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${catalog.gameVersion}`, { headers: { 'User-Agent': 'NovaClient/0.3.2' } });
   if (!response.ok) throw new Error(`Fabric-Metadaten sind nicht erreichbar (HTTP ${response.status}).`);
   const versions = await response.json();
   const selected = versions.find((v) => v.loader?.stable) || versions[0];
@@ -79,6 +85,15 @@ async function fetchModTree(selectedSlugs) {
   const visiting = new Set();
   async function visit(project) {
     if (resolved.has(project) || visiting.has(project)) return;
+    if (project === 'nova-hud') {
+      await visit('fabric-api');
+      const bundledPath = path.join(app.getAppPath(), 'launcher', 'assets', 'nova-hud-0.1.0.jar');
+      const bytes = await fs.readFile(bundledPath);
+      resolved.set(project, { project, version: { version_number: '0.1.0' }, file: {
+        filename: 'nova-hud-0.1.0.jar', hashes: { sha1: crypto.createHash('sha1').update(bytes).digest('hex') }, bundledPath
+      } });
+      return;
+    }
     visiting.add(project);
     const version = await fetchCompatibleVersion(project, catalog.gameVersion, catalog.loader);
     for (const dep of version.dependencies || []) if (dep.dependency_type === 'required' && dep.project_id) await visit(dep.project_id);
@@ -111,9 +126,13 @@ async function installMods(selectedSlugs) {
     } catch { /* first install or changed file */ }
     if (!valid) {
       sendProgress('mods', `Lade ${entry.project} …`, Math.round((completed / Math.max(entries.length, 1)) * 100));
-      const response = await fetch(file.url, { headers: { 'User-Agent': 'NovaClient/0.3.1 (desktop launcher)' } });
-      if (!response.ok) throw new Error(`Download von ${safeName} fehlgeschlagen (HTTP ${response.status}).`);
-      const bytes = Buffer.from(await response.arrayBuffer());
+      let bytes;
+      if (file.bundledPath) bytes = await fs.readFile(file.bundledPath);
+      else {
+        const response = await fetch(file.url, { headers: { 'User-Agent': 'NovaClient/0.3.2 (desktop launcher)' } });
+        if (!response.ok) throw new Error(`Download von ${safeName} fehlgeschlagen (HTTP ${response.status}).`);
+        bytes = Buffer.from(await response.arrayBuffer());
+      }
       if (file.hashes.sha1 && crypto.createHash('sha1').update(bytes).digest('hex') !== file.hashes.sha1) throw new Error(`Integritätsprüfung für ${safeName} fehlgeschlagen.`);
       const temporary = `${destination}.part`;
       await fs.writeFile(temporary, bytes);

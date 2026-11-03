@@ -1,3 +1,9 @@
+# Nova Client 0.3.2
+
+- Adds the bundled Nova HUD Fabric mod with FPS, coordinates, facing direction and dimension.
+- Opens the launcher on the secondary display when available.
+- Adds Nova HUD to all three profiles and the HUD settings page.
+
 # Nova Client 0.3.1
 
 - Update-Fehler unterscheiden einen nicht erreichbaren Update-Kanal, Verbindungsprobleme und beschädigte Downloads.

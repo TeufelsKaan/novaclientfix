@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "nova_hud",
+	"version": "${version}",
+	"name": "Nova HUD",
+	"description": "A lightweight Nova Client HUD for FPS, coordinates, direction and dimension.",
+	"authors": [
+		"Nova Client"
+	],
+	"contact": {
+		"homepage": "https://github.com/TeufelsKaan/novaclientfix"
+	},
+	"license": "CC0-1.0",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.example.NovaHudMod"
+		],
+		"client": [
+			"com.example.client.NovaHudClient"
+		]
+	},
+	"mixins": [],
+	"depends": {
+		"fabricloader": ">=0.20.1",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
