@@ -1,3 +1,10 @@
+# Nova Client 0.3.3
+
+- Adds a custom Nova icon to the Windows app and installer.
+- Makes the website installer download public without an access code.
+- Restores automatic updates from the public GitHub release channel.
+- Keeps the email-protected admin page for release management.
+
 # Nova Client 0.3.2
 
 - Adds the bundled Nova HUD Fabric mod with FPS, coordinates, facing direction and dimension.

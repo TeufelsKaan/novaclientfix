@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#0b1015"/><meta name="robots" content="noindex,nofollow"/>
+  <title>Nova Admin</title>
+  <link rel="stylesheet" href="./site.css"/><link rel="stylesheet" href="./admin.css"/>
+</head>
+<body class="admin-page">
+  <header class="admin-nav"><a class="site-brand" href="./index.html"><span class="brand-mark">N</span><span><b>NOVA</b><small>ADMIN</small></span></a><a class="secondary-button" href="./index.html">ZUR WEBSITE ↗</a></header>
+  <main class="admin-main">
+    <div class="admin-heading"><span class="eyebrow"><i></i> NOVA CLIENT · VERWALTUNG</span><h1>Admin-<em>Bereich.</em></h1><p>Der Launcher ist kostenlos und öffentlich. Neue Versionen veröffentlichst du im Nova-GitHub-Repository.</p></div>
+    <section class="admin-card" id="login-card">
+      <h2>Mit E-Mail anmelden</h2><p>Nur die festgelegte Nova-Admin-Adresse erhält Zugriff.</p>
+      <form id="login-form"><label for="admin-email">ADMIN-E-MAIL</label><input id="admin-email" type="email" autocomplete="email" required placeholder="name@example.com"/><button class="primary-button" id="login-button" type="submit">ANMELDELINK SENDEN <span>↗</span></button></form>
+      <p class="admin-status" id="login-status" role="status" aria-live="polite"></p>
+    </section>
+    <section class="admin-card admin-tools" id="admin-tools" hidden>
+      <div class="admin-card-heading"><div><span class="eyebrow">VERWALTUNG</span><h2>Öffentlicher Release-Kanal</h2></div><button class="text-button" id="signout-button" type="button">ABMELDEN</button></div>
+      <p>Alle Besucher können den Installer ohne Code herunterladen. Releases und automatische Updates werden über GitHub bereitgestellt.</p>
+      <a class="primary-button" href="https://github.com/TeufelsKaan/novaclientfix/releases" target="_blank" rel="noreferrer">RELEASES VERWALTEN <span>↗</span></a>
+    </section>
+    <p class="admin-footnote">Der öffentliche Download funktioniert unabhängig von dieser Admin-Anmeldung.</p>
+  </main>
+  <script type="module" src="./admin.js"></script>
+</body>
+</html>

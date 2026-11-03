@@ -1,6 +1,6 @@
 {
   "name": "nova-client",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "Nova Client — Windows Minecraft Java launcher with Fabric and HUD mods.",
   "main": "electron/main.cjs",
@@ -8,22 +8,26 @@
     "dev": "electron .",
     "build:hud-mod": "nova-hud-mod\\gradlew.bat -p nova-hud-mod build && node scripts/copy-hud-mod.cjs",
     "web:dev": "vite website --host 127.0.0.1",
-    "web:build": "vite build website --outDir ../dist-website --emptyOutDir",
+    "web:build": "vite build website --outDir dist --emptyOutDir",
+    "build:icon": "node scripts/create-icon.cjs",
     "test": "node --test",
-    "package:win": "npm run build:hud-mod && npm run web:build && electron-builder --config electron-builder.config.cjs --win nsis --publish never",
-    "package:dir": "electron-builder --config electron-builder.config.cjs --win dir --publish never",
+    "package:win": "npm run build:icon && npm run build:hud-mod && npm run web:build && electron-builder --config electron-builder.config.cjs --win nsis --publish never",
+    "package:dir": "npm run build:icon && electron-builder --config electron-builder.config.cjs --win dir --publish never",
     "deploy:cloudflare": "npx wrangler@latest deploy --config wrangler.toml",
-    "deploy:vercel": "npx vercel@latest --prod ./website",
+    "deploy:vercel": "npx vercel@latest --prod .",
     "check:ui": "electron scripts/check-ui.cjs",
     "check:updater": "electron scripts/check-updater.cjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
     "electron-updater": "^6.8.11",
     "eml-lib": "^2.2.0"
   },
   "devDependencies": {
     "electron": "^45.2.1",
     "electron-builder": "^26.18.0",
+    "png-to-ico": "^3.0.2",
+    "sharp": "^0.35.5",
     "vite": "^8.3.5"
   },
   "build": {
@@ -36,6 +40,7 @@
       "electron/**/*",
       "launcher/**/*",
       "lib/**/*",
+      "assets/**/*",
       "website/**/*",
       "package.json",
       "node_modules/**/*"
@@ -44,11 +49,14 @@
       "target": [
         "nsis"
       ],
+      "icon": "assets/nova-icon.ico",
       "artifactName": "Nova-Client-Setup-${version}.${ext}"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/nova-icon.ico",
+      "uninstallerIcon": "assets/nova-icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Nova Client"

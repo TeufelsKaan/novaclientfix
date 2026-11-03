@@ -28,8 +28,8 @@ let appState = { loggedIn:false, username:null, settings:{profile:'performance',
 let activeFilter='Alle';
 let settingsTab='game';
 let toastTimeout;
-let updateState={status:'disabled',currentVersion:'0.3.2',nextVersion:null,percent:0,checkedAt:null,attemptedAt:null,errorCode:null};
-const updateLabels={disabled:'Updates sind in der Windows-Installation verfügbar.',idle:'Nova sucht automatisch nach neuen Versionen.',checking:'Nova sucht nach Updates …',current:'Du nutzt die neueste verfügbare Version.',downloading:'Eine neue Version wird im Hintergrund geladen.',ready:'Dein Update ist bereit zur Installation.',installing:'Nova wird für das Update neu gestartet.',error:'Updates sind gerade nicht erreichbar. Nova versucht es später erneut.'};
+let updateState={status:'disabled',currentVersion:'0.3.3',nextVersion:null,percent:0,checkedAt:null,attemptedAt:null,errorCode:null};
+const updateLabels={disabled:'Automatische Updates sind in der Windows-Installation verfügbar.',idle:'Nova sucht automatisch nach neuen Versionen.',checking:'Nova sucht nach Updates …',current:'Du nutzt die neueste verfügbare Version.',downloading:'Eine neue Version wird im Hintergrund geladen.',ready:'Dein Update ist bereit zur Installation.',installing:'Nova wird für das Update neu gestartet.',error:'Updates sind gerade nicht erreichbar. Nova versucht es später erneut.'};
 const updateErrorLabels={channel_unavailable:'Der Update-Kanal ist noch nicht veröffentlicht oder nicht öffentlich erreichbar. Bitte versuche es später erneut.',network:'Die Verbindung zum Update-Server ist unterbrochen. Prüfe deine Internetverbindung und versuche es erneut.',integrity:'Der Update-Download ist beschädigt oder konnte nicht bestätigt werden. Er wird nicht installiert. Bitte lade das Update erneut.',server:'Der Update-Server hat die Anfrage abgelehnt oder ist vorübergehend nicht verfügbar. Bitte versuche es später erneut.'};
 function receiveUpdateState(next){
   updateState={...updateState,...next};

@@ -1,0 +1,11 @@
+[functions.admin-tools]
+verify_jwt = true
+
+[functions.redeem-code]
+verify_jwt = false
+
+[functions.activate-license]
+verify_jwt = false
+
+[functions.private-updates]
+verify_jwt = false

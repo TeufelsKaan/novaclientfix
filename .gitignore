@@ -1,5 +1,6 @@
 node_modules/
 dist-website/
+website/dist/
 release/
 .env
 .env.*

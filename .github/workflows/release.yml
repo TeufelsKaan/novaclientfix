@@ -25,34 +25,26 @@ jobs:
         shell: pwsh
         run: |
           $version = (Get-Content package.json | ConvertFrom-Json).version
-          if ($env:GITHUB_REF_NAME -ne "v$version") { throw 'Run this workflow on the matching version tag, for example v0.3.0.' }
-          if ('${{ github.event.repository.private }}' -eq 'true') { throw 'Public client downloads require a public release repository.' }
+          if ($env:GITHUB_REF_NAME -ne "v$version") { throw 'Run this workflow on the matching version tag.' }
       - run: npm ci
       - run: npm test
       - run: npm run check:ui
       - run: npm run check:updater
-      - name: Build update installer and manifest
-        run: npm run package:win
+      - run: npm run package:win
       - name: Verify release metadata and create stable download
         run: node scripts/check-release.cjs
-      - uses: actions/upload-artifact@v4
-        with:
-          name: nova-windows-update
-          path: |
-            release/Nova-Client-Setup-*.exe
-            release/Nova-Client-Setup.exe
-            release/Nova-Client-Setup-*.exe.blockmap
-            release/latest.yml
-      - name: Publish complete release
+      - name: Publish public GitHub release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
           $version = (Get-Content package.json | ConvertFrom-Json).version
-          gh release create "v$version" --verify-tag --draft --title "Nova Client $version" --generate-notes
+          gh release create "v$version" --verify-tag --draft --title "Nova Client $version" --generate-notes `
+            "release/Nova-Client-Setup-$version.exe" `
+            "release/Nova-Client-Setup-$version.exe.blockmap" `
+            "release/Nova-Client-Setup.exe" `
+            "release/latest.yml"
           if ($LASTEXITCODE -ne 0) { throw 'Could not create release draft.' }
-          gh release upload "v$version" "release/Nova-Client-Setup-$version.exe" "release/Nova-Client-Setup-$version.exe.blockmap" release/Nova-Client-Setup.exe release/latest.yml
-          if ($LASTEXITCODE -ne 0) { throw 'Upload failed. Release remains a draft.' }
           gh release edit "v$version" --draft=false --latest
-          if ($LASTEXITCODE -ne 0) { throw 'Could not publish the release.' }
+          if ($LASTEXITCODE -ne 0) { throw 'Could not publish release.' }

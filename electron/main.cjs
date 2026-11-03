@@ -71,7 +71,7 @@ async function loadAccount() {
 }
 
 async function resolveFabricVersion() {
-  const response = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${catalog.gameVersion}`, { headers: { 'User-Agent': 'NovaClient/0.3.2' } });
+  const response = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${catalog.gameVersion}`, { headers: { 'User-Agent': 'NovaClient/' + app.getVersion() } });
   if (!response.ok) throw new Error(`Fabric-Metadaten sind nicht erreichbar (HTTP ${response.status}).`);
   const versions = await response.json();
   const selected = versions.find((v) => v.loader?.stable) || versions[0];
@@ -129,7 +129,7 @@ async function installMods(selectedSlugs) {
       let bytes;
       if (file.bundledPath) bytes = await fs.readFile(file.bundledPath);
       else {
-        const response = await fetch(file.url, { headers: { 'User-Agent': 'NovaClient/0.3.2 (desktop launcher)' } });
+        const response = await fetch(file.url, { headers: { 'User-Agent': 'NovaClient/' + app.getVersion() + ' (desktop launcher)' } });
         if (!response.ok) throw new Error(`Download von ${safeName} fehlgeschlagen (HTTP ${response.status}).`);
         bytes = Buffer.from(await response.arrayBuffer());
       }
