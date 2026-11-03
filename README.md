@@ -73,4 +73,8 @@ The Electron UI checks use an isolated temporary account store and verify mod se
 
 ## Project notes
 
+### Source access and reuse
+
+The Nova Client launcher source is public for inspection. All rights are reserved; no permission is granted to copy, modify, distribute, or reuse the launcher source without prior written permission. This notice does not change the separate CC0 license for the bundled Nova HUD mod in `nova-hud-mod/LICENSE` or the licenses of third-party software.
+
 Nova Client is an independent community project, not affiliated with Mojang Studios or Microsoft. Minecraft is a trademark of Mojang Studios.
