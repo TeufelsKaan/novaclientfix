@@ -47,12 +47,14 @@ The NSIS installer, blockmap and `latest.yml` are written to `release/`. The web
 
 ## Website and hosting
 
+The public download website is [novaclientfix.vercel.app](https://novaclientfix.vercel.app/). It uses screenshots from the redesigned launcher, a keyboard-accessible preview switcher, direct public downloads, and a separate admin page.
+
 - Local website preview: `npm run web:dev`
 - Website build: `npm run web:build`
 - Cloudflare Workers static assets: sign in with Wrangler, then run `npm run deploy:cloudflare`
-- Vercel: link `website/` to a Vercel project once, then run `npm run deploy:vercel`
+- Vercel: the repository root is linked to `novaclientfix`. The root `vercel.json` builds both pages into `website/dist`; pushes to `main` deploy the site through the Git integration.
 
-The optional GitHub Actions workflow in `.github/workflows/deploy.yml` can deploy both providers. Add repository secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` before running it. Those account connections and public deployment have not been performed by this local build.
+The optional GitHub Actions workflow in `.github/workflows/deploy.yml` can deploy both providers when its provider credentials are configured. The current production website uses Vercel's Git integration.
 
 ## Profiles
 
