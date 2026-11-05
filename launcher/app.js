@@ -20,7 +20,7 @@ const fallbackCatalog = {
     {slug:'jade',name:'Jade',category:'HUD',description:'Zeigt Infos zu Blöcken und Kreaturen im Fadenkreuz.',default:true,hud:true},
     {slug:'xaeros-minimap',name:"Xaero's Minimap",category:'HUD',description:'Ergänzt eine anpassbare Minimap und Wegpunkte.',default:false,hud:true},
     {slug:'zoomify',name:'Zoomify',category:'HUD',description:'Fügt einen frei konfigurierbaren Zoom hinzu.',default:true,hud:true},
-    {slug:'nova-hud',name:'Nova HUD',category:'HUD',description:'Eigenes Overlay für FPS, Koordinaten, Blickrichtung und Dimension.',default:true,hud:true,bundled:true},
+    {slug:'nova-hud',name:'Nova HUD',category:'HUD',description:'Acht anpassbare Anzeigen. Rechts-Shift öffnet den Editor im Spiel (Fabric 26.3).',default:true,hud:true,bundled:true},
     {slug:'iris',name:'Iris Shaders',category:'Grafik',description:'Ermöglicht Shader-Pakete zusammen mit Sodium.',default:false,hud:false}
   ]
 };
@@ -29,7 +29,7 @@ let activeFilter='Alle';
 let settingsTab='game';
 let toastTimeout;
 let minecraftVersionData={latestRelease:fallbackCatalog.gameVersion,latestSnapshot:'',versions:[{id:fallbackCatalog.gameVersion,type:'release'}]};
-let updateState={status:'disabled',currentVersion:'0.5.0',nextVersion:null,percent:0,checkedAt:null,attemptedAt:null,errorCode:null};
+let updateState={status:'disabled',currentVersion:'0.6.0',nextVersion:null,percent:0,checkedAt:null,attemptedAt:null,errorCode:null};
 const updateLabels={disabled:'Automatische Updates sind in der Windows-Installation verfügbar.',idle:'Nova sucht automatisch nach neuen Versionen.',checking:'Nova sucht nach Updates …',current:'Du nutzt die neueste verfügbare Version.',downloading:'Eine neue Version wird im Hintergrund geladen.',ready:'Dein Update ist bereit zur Installation.',installing:'Nova wird für das Update neu gestartet.',error:'Updates sind gerade nicht erreichbar. Nova versucht es später erneut.'};
 const updateErrorLabels={channel_unavailable:'Der Update-Kanal ist noch nicht veröffentlicht oder nicht öffentlich erreichbar. Bitte versuche es später erneut.',network:'Die Verbindung zum Update-Server ist unterbrochen. Prüfe deine Internetverbindung und versuche es erneut.',integrity:'Der Update-Download ist beschädigt oder konnte nicht bestätigt werden. Er wird nicht installiert. Bitte lade das Update erneut.',server:'Der Update-Server hat die Anfrage abgelehnt oder ist vorübergehend nicht verfügbar. Bitte versuche es später erneut.'};
 function receiveUpdateState(next){
@@ -135,8 +135,8 @@ function renderHome() {
   setText('#home-mod-note',builtIn ? countMods() + ' Mods ausgewählt · Beim Start werden kompatible Versionen geladen.' : appState.settings.modpackName ? 'Aktiv: ' + name : 'Wechsle zu Fabric, um die Nova-Mods zu nutzen.');
   if (!appState.launchBusy) setText('#launch-status',appState.loggedIn ? 'Bereit zum Starten' : 'Zum Spielen mit Microsoft anmelden');
   $('#play-button span').textContent = appState.loggedIn ? 'Spielen' : 'Anmelden & spielen';
-  setText('#client-version',appState.version || '0.5.0');
-  setText('#sidebar-version',appState.version || '0.5.0');
+  setText('#client-version',appState.version || '0.6.0');
+  setText('#sidebar-version',appState.version || '0.6.0');
   if (!$('#home-version') || $('#home-version').value !== version || $('#home-loader').value !== appState.settings.loader) renderHomeControls();
   $$('[data-hud-mod]').forEach(input => input.checked = selectedMods().has(input.dataset.hudMod));
   $('#play-button').disabled = Boolean(appState.launchBusy);

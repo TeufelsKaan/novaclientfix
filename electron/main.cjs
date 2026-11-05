@@ -4,6 +4,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { fetchCompatibleVersion, chooseJarFile } = require('../lib/modrinth.cjs');
 const catalog = require('../lib/mod-catalog.json');
+const hudMod = require('../lib/hud-mod.json');
 const { getMinecraftVersions, getLoaderVersions } = require('../lib/minecraft-catalog.cjs');
 const { importModpackArchive } = require('../lib/modpack-importer.cjs');
 const { createUpdateService } = require('./updates.cjs');
@@ -91,12 +92,12 @@ async function fetchModTree(selectedSlugs) {
   async function visit(project) {
     if (resolved.has(project) || visiting.has(project)) return;
     if (project === 'nova-hud') {
-      if (settings.gameVersion !== catalog.gameVersion) throw new Error(`Nova HUD ist derzeit nur für Minecraft ${catalog.gameVersion} verfügbar.`);
+      if (settings.gameVersion !== hudMod.gameVersion) throw new Error(`Nova HUD ist derzeit nur für Minecraft ${hudMod.gameVersion} verfügbar.`);
       await visit('fabric-api');
-      const bundledPath = path.join(app.getAppPath(), 'launcher', 'assets', 'nova-hud-0.1.0.jar');
+      const bundledPath = path.join(app.getAppPath(), 'launcher', 'assets', hudMod.filename);
       const bytes = await fs.readFile(bundledPath);
-      resolved.set(project, { project, version: { version_number: '0.1.0' }, file: {
-        filename: 'nova-hud-0.1.0.jar', hashes: { sha1: crypto.createHash('sha1').update(bytes).digest('hex') }, bundledPath
+      resolved.set(project, { project, version: { version_number: hudMod.version }, file: {
+        filename: hudMod.filename, hashes: { sha1: crypto.createHash('sha1').update(bytes).digest('hex') }, bundledPath
       } });
       return;
     }

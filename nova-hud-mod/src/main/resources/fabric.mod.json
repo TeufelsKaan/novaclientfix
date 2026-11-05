@@ -3,7 +3,7 @@
 	"id": "nova_hud",
 	"version": "${version}",
 	"name": "Nova HUD",
-	"description": "A lightweight Nova Client HUD for FPS, coordinates, direction and dimension.",
+	"description": "Configurable Nova HUD with a Right Shift editor, draggable widgets, FPS, coordinates, ping, speed, clock and tool durability.",
 	"authors": [
 		"Nova Client"
 	],
@@ -11,7 +11,7 @@
 		"homepage": "https://github.com/TeufelsKaan/novaclientfix"
 	},
 	"license": "CC0-1.0",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			"com.example.NovaHudMod"

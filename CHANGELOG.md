@@ -1,3 +1,11 @@
+# Nova Client 0.6.0
+
+- Adds the in-game Nova HUD editor, opened with Right Shift in a world (rebindable in Minecraft Controls).
+- Adds optional ping, horizontal speed, clock and held-tool durability displays alongside FPS, coordinates, direction and dimension.
+- Supports dragging each display, per-display sizing with the mousewheel, keyboard positioning, colors, background opacity, text shadow and optional grid snapping.
+- Saves HUD settings per game profile, restores them after restarting, and provides cancel and reset controls.
+- Bundles Nova HUD 0.2.0 for Fabric 26.3 and replaces the previous managed mod jar on game start. Imported packs keep their own mod setup.
+
 # Nova Client 0.5.0
 
 - Replaces the promotional dashboard with a compact desktop interface, restrained colors, local system fonts and consistent line icons.

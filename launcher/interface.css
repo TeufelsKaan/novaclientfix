@@ -155,6 +155,10 @@ input[type="checkbox"] { accent-color: var(--accent); }
 .hud-option b, .hud-option small { display: block; }
 .hud-option b { font-size: .8rem; font-weight: 500; }
 .hud-option small { color: var(--muted); font-size: .7rem; margin-top: 4px; }
+.page-intro kbd, .hud-editor-help kbd { padding: 2px 6px; border: 1px solid var(--line); border-radius: 4px; font: inherit; color: var(--text); }
+.hud-editor-help { max-width: 820px; margin-top: 24px; }
+.hud-editor-help h2 { font-size: 1rem; font-weight: 500; margin-bottom: 10px; }
+.hud-editor-help p { font-size: .8rem; line-height: 1.7; color: var(--muted); margin-top: 8px; }
 .settings-layout { display: grid; grid-template-columns: 156px minmax(0,1fr); gap: 24px; align-items: start; }
 .settings-nav { display: grid; gap: 4px; }
 .settings-tab { text-align: left; padding: 10px 12px; font-size: .78rem; background: transparent; border: 0; border-radius: 4px; color: var(--muted); }

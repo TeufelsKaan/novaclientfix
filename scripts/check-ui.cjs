@@ -30,6 +30,10 @@ app.whenReady().then(async () => {
     await run(`document.querySelector('#home-loader').value='fabric';document.querySelector('#home-loader').onchange()`);
     await delay(250);
     fs.writeFileSync(path.join(output, 'nova-home.png'), (await win.webContents.capturePage()).toPNG());
+    await run(`document.querySelector('[data-page="hud"]').click()`);
+    await check('HUD editor instructions and optional modules are visible', `document.querySelector('#page-hud').textContent.includes('Rechts-Shift')&&document.querySelector('.hud-editor-help').textContent.includes('Haltbarkeit')`);
+    await delay(100);
+    fs.writeFileSync(path.join(output, 'nova-hud.png'), (await win.webContents.capturePage()).toPNG());
     await run(`document.querySelector('[data-page="mods"]').click();document.querySelector('#mod-search').value='sodium';document.querySelector('#mod-search').dispatchEvent(new Event('input'))`);
     await check('mod search returns relevant names and descriptions', `document.querySelectorAll('.mod-card:not(.filtered-out)').length>0&&[...document.querySelectorAll('.mod-card:not(.filtered-out)')].every(card=>card.textContent.toLowerCase().includes('sodium'))`);
     await run(`document.querySelector('#mod-search').value='no-such-mod';document.querySelector('#mod-search').dispatchEvent(new Event('input'))`);

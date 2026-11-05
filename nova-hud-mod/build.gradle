@@ -54,6 +54,28 @@ java {
 	targetCompatibility = JavaVersion.VERSION_25
 }
 
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = "nova_hud_test"
+        enableGameTests = false
+        enableClientGameTests = true
+        eula = true
+    }
+}
+
+sourceSets.gametest.compileClasspath += sourceSets.client.output
+sourceSets.gametest.runtimeClasspath += sourceSets.client.output
+
+tasks.register('hudConfigTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.example.hud.HudConfigTest'
+}
+tasks.named('check') { dependsOn tasks.named('hudConfigTest') }
+// The HUD assertions run through hudConfigTest rather than a JUnit engine.
+tasks.named('test', Test) { failOnNoDiscoveredTests = false }
+
 jar {
 	def projectName = project.name
 	inputs.property "projectName", projectName

@@ -1,5 +1,7 @@
 # Nova Client
 
+**0.6.0:** Press **Right Shift in-game** to arrange Nova HUD. Eight displays support dragging, individual sizes, colors, opacity, grid snapping and saved profile settings. Requires the bundled Nova HUD on a Nova Fabric 26.3 profile; imported packs retain their own mods.
+
 **0.5.0:** A compact desktop interface with Minecraft and loader selection on the home screen, a persistent play bar, searchable mod rows and local system fonts. Import feedback stays visible until the next action.
 
 **0.4.0:** Adds all official Minecraft Java versions, Vanilla/Fabric/Quilt/Forge/NeoForge choices, and Modrinth/CurseForge modpack import. CurseForge exports that list file IDs still need an approved CurseForge API key to download those files. **0.3.3:** Adds the Nova icon, makes website downloads public and restores the public GitHub update channel. See `CHANGELOG.md`.
@@ -64,7 +66,7 @@ The optional GitHub Actions workflow in `.github/workflows/deploy.yml` can deplo
 
 Nova verifies downloaded mod files against their Modrinth SHA-1 hashes. Required Modrinth dependencies are resolved automatically. It tracks only the jar files it installed, so worlds, screenshots and settings are kept.
 
-Nova also includes its own Fabric mod, **Nova HUD**, with FPS, coordinates, facing direction and dimension information. It is built from `nova-hud-mod/` and bundled into the Windows installer. The development build needs Java 25; `npm run package:win` builds and bundles the mod automatically. Nova opens on the secondary display when one is connected.
+Nova also includes its own Fabric mod, **Nova HUD**, with FPS, coordinates, facing direction, dimension, ping, horizontal speed, clock and held-tool durability. Press **Right Shift** in a world to configure the eight displays. Drag to move, scroll to resize, use **H** for the full canvas and **Esc** to save. The editor controls Nova HUD; other mods keep their own settings. It is built from `nova-hud-mod/` and bundled into the Windows installer. The development build needs Java 25; `npm run package:win` builds and bundles the mod automatically. Nova opens on the secondary display when one is connected.
 
 ## Tests
 

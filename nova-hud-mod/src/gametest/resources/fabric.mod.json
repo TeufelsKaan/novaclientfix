@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "nova_hud_test",
+  "version": "1.0.0",
+  "name": "Nova HUD game tests",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-client-gametest": ["com.example.client.HudEditorGameTest"]
+  }
+}
