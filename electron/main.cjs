@@ -7,6 +7,7 @@ const catalog = require('../lib/mod-catalog.json');
 const { getMinecraftVersions, getLoaderVersions } = require('../lib/minecraft-catalog.cjs');
 const { importModpackArchive } = require('../lib/modpack-importer.cjs');
 const { createUpdateService } = require('./updates.cjs');
+const clientVersion = require('../package.json').version;
 
 app.setName('Nova Client');
 app.setAppUserModelId('gg.nova.client');
@@ -28,7 +29,7 @@ async function readJson(file, fallback) { try { return JSON.parse(await fs.readF
 async function saveSettingsFile() { await fs.mkdir(app.getPath('userData'), { recursive: true }); await fs.writeFile(settingsFile(), JSON.stringify(settings, null, 2)); }
 function sendProgress(stage, detail = '', percent = null) { mainWindow?.webContents.send('nova:progress', { stage, detail, percent }); }
 function publicState() {
-  return { loggedIn: Boolean(activeAccount), username: activeAccount?.name || activeAccount?.username || null, uuid: activeAccount?.uuid || null, settings, catalog, gameVersion: settings.gameVersion, launchBusy, version: app.getVersion() };
+  return { loggedIn: Boolean(activeAccount), username: activeAccount?.name || activeAccount?.username || null, uuid: activeAccount?.uuid || null, settings, catalog, gameVersion: settings.gameVersion, launchBusy, version: clientVersion };
 }
 function normalizeSettings(data = {}) {
   const profile = profileKeys.has(data.profile) ? data.profile : defaults.profile;
@@ -57,7 +58,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width, height, x: display.workArea.x + Math.round((display.workArea.width - width) / 2),
     y: display.workArea.y + Math.round((display.workArea.height - height) / 2), minWidth: 1000, minHeight: 680,
-    backgroundColor: '#0b0f15', title: 'Nova Client', autoHideMenuBar: true,
+    backgroundColor: '#181a1d', title: 'Nova Client', autoHideMenuBar: true,
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true }
   });
   mainWindow.setMenuBarVisibility(false);
@@ -281,7 +282,7 @@ app.whenReady().then(async () => {
   await loadAccount();
   const { autoUpdater } = require('electron-updater');
   updates = createUpdateService({
-    updater: autoUpdater, version: app.getVersion(),
+    updater: autoUpdater, version: clientVersion,
     enabled: app.isPackaged && process.platform === 'win32' && Boolean(require('../package.json').novaUpdateUrl),
     canInstall: () => !launchBusy && !gameRunning,
     onState: state => { if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('nova:update-state', state); },

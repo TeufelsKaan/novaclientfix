@@ -1,5 +1,5 @@
 // Exercise the actual Electron renderer with a temporary, isolated account store.
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 app.disableHardwareAcceleration();
 const fs = require('node:fs');
 const os = require('node:os');
@@ -21,9 +21,14 @@ app.whenReady().then(async () => {
     fs.mkdirSync(output, { recursive: true });
     win.setSize(1440, 1000);
     await delay(150);
-    await check('main text is readable', `parseFloat(getComputedStyle(document.querySelector('.hero-content>p')).fontSize)>=14`);
+    await check('main text is readable', `parseFloat(getComputedStyle(document.querySelector('.page-intro p')).fontSize)>=14`);
+    await check('game selection is available on the home page', `document.querySelector('#home-version')&&document.querySelector('#home-loader')&&document.querySelector('#home-pack-url')`);
     if (win.isMenuBarVisible()) throw new Error('Native menu bar is visible');
     console.log('PASS native menu stays hidden');
+    await run(`document.querySelector('#home-loader').value='vanilla';document.querySelector('#home-loader').onchange()`);
+    await check('home loader selection is saved and reflected in the launch bar', `(async()=>{const state=await window.novaClient.getState();return state.settings.loader==='vanilla'&&document.querySelector('#home-loader-field').hidden&&document.querySelector('#launch-profile').textContent.includes('Vanilla')})()`);
+    await run(`document.querySelector('#home-loader').value='fabric';document.querySelector('#home-loader').onchange()`);
+    await delay(250);
     fs.writeFileSync(path.join(output, 'nova-home.png'), (await win.webContents.capturePage()).toPNG());
     await run(`document.querySelector('[data-page="mods"]').click();document.querySelector('#mod-search').value='sodium';document.querySelector('#mod-search').dispatchEvent(new Event('input'))`);
     await check('mod search returns relevant names and descriptions', `document.querySelectorAll('.mod-card:not(.filtered-out)').length>0&&[...document.querySelectorAll('.mod-card:not(.filtered-out)')].every(card=>card.textContent.toLowerCase().includes('sodium'))`);
@@ -47,6 +52,7 @@ app.whenReady().then(async () => {
       for (const page of ['home','mods','hud','settings']) {
         await run(`setPage('${page}')`);
         await check(`${page} fits ${width}px with large text`, `document.querySelector('.page.active').scrollWidth<=document.querySelector('.page.active').clientWidth+1`);
+        await check(`${page} keeps the play button visible at ${width}px`, `document.querySelector('#play-button').getBoundingClientRect().bottom<=innerHeight&&document.querySelector('#play-button').getBoundingClientRect().top>=0`);
       }
     }
     await run(`setProgress({stage:'error',detail:'Testfehler'});document.querySelector('#progress-dismiss').click()`);
@@ -63,6 +69,16 @@ app.whenReady().then(async () => {
     }
     await delay(150);
     fs.writeFileSync(path.join(output, 'nova-update-error.png'), (await win.webContents.capturePage()).toPNG());
+    const state = await run(`window.novaClient.getState()`);
+    const importedState = { ...state, settings: { ...state.settings, modpackName: 'Testpack', selectedMods: [] } };
+    ipcMain.removeHandler('nova:import-modpack');
+    ipcMain.handle('nova:import-modpack', async () => ({ ok: true, state: importedState, pack: { name: 'Testpack' } }));
+    await run(`settingsTab='game';setPage('settings');runPackImport('https://modrinth.com/modpack/test',document.querySelector('#settings-import-status'),[document.querySelector('#import-pack-link'),document.querySelector('#import-pack-file')])`);
+    await check('successful import remains visible after settings redraw', `document.querySelector('#settings-import-status').textContent.includes('Testpack')&&document.querySelector('#settings-import-status').dataset.state==='success'&&document.querySelector('#hero-profile').textContent==='Testpack'`);
+    ipcMain.removeHandler('nova:import-modpack');
+    ipcMain.handle('nova:import-modpack', async () => ({ ok: false, error: 'Das Testpaket ist nicht verfügbar.' }));
+    await run(`setPage('home');runPackImport('https://modrinth.com/modpack/test',document.querySelector('#home-import-status'),[document.querySelector('#home-import-link'),document.querySelector('#home-import-file')])`);
+    await check('import error is persistent and buttons permit retry', `document.querySelector('#home-import-status').textContent.includes('nicht verfügbar')&&document.querySelector('#home-import-status').dataset.state==='error'&&!document.querySelector('#home-import-link').disabled`);
     console.log('UI checks complete. Preview images: release/previews');
     app.exit(0);
   } catch (error) { console.error(error);app.exit(1); }

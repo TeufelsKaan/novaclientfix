@@ -1,3 +1,11 @@
+# Nova Client 0.5.0
+
+- Replaces the promotional dashboard with a compact desktop interface, restrained colors, local system fonts and consistent line icons.
+- Moves Minecraft version and loader selection onto the home screen and saves changes immediately.
+- Keeps the play button and active installation visible across every page.
+- Presents mods as a searchable list and adds persistent feedback for modpack imports.
+- Shows the actual selected profile and launcher version consistently, and ignores stale loader metadata responses.
+
 # Nova Client 0.4.0
 
 - Adds the official Minecraft Java version list, including releases and snapshots, with Vanilla, Fabric, Quilt, Forge and NeoForge loader selection.

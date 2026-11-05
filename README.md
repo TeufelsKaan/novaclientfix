@@ -1,5 +1,7 @@
 # Nova Client
 
+**0.5.0:** A compact desktop interface with Minecraft and loader selection on the home screen, a persistent play bar, searchable mod rows and local system fonts. Import feedback stays visible until the next action.
+
 **0.4.0:** Adds all official Minecraft Java versions, Vanilla/Fabric/Quilt/Forge/NeoForge choices, and Modrinth/CurseForge modpack import. CurseForge exports that list file IDs still need an approved CurseForge API key to download those files. **0.3.3:** Adds the Nova icon, makes website downloads public and restores the public GitHub update channel. See `CHANGELOG.md`.
 
 ## Automatic launcher updates (0.3.0 and later)
@@ -31,9 +33,9 @@ npm install
 npm run dev
 ```
 
-Sign in with a Microsoft account that owns Minecraft: Java Edition, open **Einstellungen → Spiel**, choose a Minecraft version and loader, then select **Spiel starten**. Nova loads the official Mojang version catalog and compatible loader metadata. The first launch downloads game files and the matching Java runtime.
+Sign in with a Microsoft account that owns Minecraft: Java Edition, choose a Minecraft version and loader on **Spielen**, then select **Spielen** in the bottom bar. Version and loader selections are saved immediately. Nova loads the official Mojang version catalog and compatible loader metadata. The first launch downloads game files and the matching Java runtime.
 
-The same settings page accepts Modrinth project links and `.mrpack` files, plus CurseForge export `.zip` files or direct `.zip` links. CurseForge manifests commonly reference mod files by ID; those files are downloaded only when the pack provides direct URLs or a CurseForge-approved API key is configured. No API key is bundled with Nova.
+The home screen and **Einstellungen → Spiel** accept Modrinth project links and `.mrpack` files, plus CurseForge export `.zip` files or direct `.zip` links. CurseForge manifests commonly reference mod files by ID. Exports that require the approved CurseForge API are reported as unsupported; Nova does not bundle or configure a CurseForge API key.
 
 ## Build the Windows installer
 
